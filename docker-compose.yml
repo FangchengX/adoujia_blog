@@ -1,0 +1,38 @@
+version: '3'
+services:
+  mysql:
+    build: ./sql/
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    container_name: questionnaire-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: root
+    ports:
+      - 3306:3306
+    logging:
+      driver: json-file
+      options:
+        max-size: 1k
+    volumes:
+      - mysql-store:/var/lib/mysql
+    #  redis:
+    #    image: redis:alpine
+    #    command: --requirepass pass
+    #    ports:
+    #      - 6379:6379
+    #  web:
+    #    build: ./questionnaire-web/
+    #    environment:
+    #      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/questionnaire?useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true
+    #      REDISSON_ADDRESS: redis://redis:6379
+    #      SPRING_REDIS_HOST: redis
+    #HOST:CONTAINER
+#    links:
+#      - redis
+#      - mysql
+#    ports:
+#      - 6080:6080
+
+volumes:
+  mysql-store:
